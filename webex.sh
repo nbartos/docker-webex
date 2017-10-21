@@ -2,8 +2,9 @@
 
 docker rm --force webex >/dev/null 2>&1
 docker build --tag=webex .
+#	--env DISPLAY=unix$DISPLAY \
+#	--env XDG_RUNTIME_DIR=/tmp \
 docker run -ti \
-	--env DISPLAY=unix$DISPLAY \
 	--privileged \
 	--name=webex \
 	--volume /dev/snd:/dev/snd \

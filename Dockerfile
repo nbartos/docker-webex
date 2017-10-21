@@ -6,8 +6,14 @@ RUN dpkg --add-architecture i386
 RUN apt-get update
 RUN apt-get install -y firefox:i386 icedtea-7-plugin:i386 \
     openjdk-7-jre:i386 libpangox-1.0-0:i386 libpangoxft-1.0-0:i386 \
-    libxft2:i386 libxmu6:i386 libxv1:i386 fonts-takao
+    libxft2:i386 libxmu6:i386 libxv1:i386 fonts-takao curl
 RUN useradd -ms /bin/bash webex
+
+RUN set -xe \
+    && curl -fsL https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 > /usr/bin/dumb-init \
+        && chmod +x /usr/bin/dumb-init
+
 USER webex
 WORKDIR /home/webex
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD /usr/bin/firefox
